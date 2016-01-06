@@ -1,0 +1,101 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+html, body
+{
+    height: 100%;
+}
+body {
+    background: black;
+    color: white;
+    /* too much for CPU! */
+    transition: background 300ms;
+}
+
+nav {
+    padding: 10px;
+    font-family: Megrim;
+    font-size: 30px;
+    height: 400px;
+    overflow: auto;
+    display: none;
+    z-index: 2;
+    position: relative;
+}
+
+nav li {
+    z-index: 2;
+    position: relative;
+    text-decoration: none;
+}
+
+nav a {
+    color: grey;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: white;
+}
+
+#menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+footer p {
+    font-family: Megrim;
+    font-size: 30px;
+}
+
+::selection { background: transparent; } 
+::-moz-selection { background: transparent; }
+
+
+table {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+#audio {
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+footer {
+    position: fixed;
+    bottom:0;
+    margin: 0 auto;
+    display: block;
+    z-index: 2;
+    width: 100%;
+}
+
+footer p {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+footer a {
+    color: grey;
+    text-decoration: none;
+    border-bottom: 1px dashed #444;
+}
+
+footer a:hover {
+    color: white!important;
+}
