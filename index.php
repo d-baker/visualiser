@@ -21,14 +21,22 @@
     <header>
         <img id="menu" src="icons/menu.svg"/>
         <div id="audio">
-            <audio controls id="player" src="music/<?php 
+            <audio controls id="player" src="<?php 
                 if (isset ($_GET["url"])) {
-                    echo $_GET["url"];
+                    $url = htmlentities($_GET["url"]);
+                    $url = str_replace("../", "", $url);
+
+                    if (isset ($_GET["custom"]) && ($_GET["custom"] == "true")) {
+                        echo $url;
+                    } else {
+                        echo "music/$url";
+                    }
                 } else {
                     echo "Caper.mp3";
                 } 
             ?>"></audio>
         </div>
+        <p class="credit">Created by <a href="http://memoriata.com">Dorothea Baker</a></p>
     </header>
 
     <table style="width:100%;height:100%;" id="stars"></table>
@@ -71,9 +79,9 @@
                 <a href="index.php?song=18-12-13&url=18-12-13.mp3&artist=memoriata&download=https://dbaker.bandcamp.com/track/18-12-13">memoriata - 18-12-13</a>
             </li>
 
-            <!-- 1-1-14 -->
+            <!-- 2016-10-21 -->
             <li>
-                <a href="index.php?song=1-1-14&url=1-1-14.mp3&artist=memoriata&download=https://dbaker.bandcamp.com/track/1-1-14">memoriata - 1-1-14</a>
+                <a href="index.php?song=2016-10-21&url=2016-10-21.mp3&artist=memoriata&download=https://dbaker.bandcamp.com/track/2016-10-21">memoriata - 2016-10-21</a>
             </li>
 
             <!-- 2015-10-08 -->

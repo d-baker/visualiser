@@ -15,6 +15,20 @@ body {
     transition: background 300ms;
 }
 
+p.credit {
+    float: right;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    z-index: 3;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.credit a {
+    color: white;
+    cursor: pointer;
+}
+
 nav {
     padding: 10px;
     font-family: Megrim;
@@ -24,6 +38,10 @@ nav {
     display: none;
     z-index: 2;
     position: relative;
+}
+
+nav ul {
+    list-style-type: none;
 }
 
 nav li {
