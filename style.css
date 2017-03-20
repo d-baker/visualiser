@@ -25,7 +25,7 @@ canvas {
 
 body {
     background: black;
-    color: white;
+    color: #ccc;
     /* too much for CPU! */
     transition: background 300ms;
 
@@ -73,17 +73,10 @@ header {
 }
 
 #title a {
-    font-family: Megrim;
-    font-size: 30px;
-    text-decoration: none;
-    text-transform: lowercase;
-    border-bottom: 1px dashed white;
-    transition-property: border-bottom-color, color;
-    transition-duration: .2s;
 }
 
 a {
-    color: white;
+    color: #ccc;
     transition-property: color;
     transition-duration: .2s;
 }
