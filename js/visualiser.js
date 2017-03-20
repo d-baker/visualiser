@@ -1,79 +1,96 @@
 // http://ianreah.com/2013/02/28/Real-time-analysis-of-streaming-audio-data-with-Web-Audio-API.html
 
 $(function () {
-    // Future-proofing...
-    var context;
-    if (typeof AudioContext !== "undefined") {
-        context = new AudioContext();
-    } else if (typeof webkitAudioContext !== "undefined") {
-        context = new webkitAudioContext();
-    } else {
-        $(".hideIfNoApi").hide();
-        $(".showIfNoApi").show();
-        return;
-    }
-
-    // Create the analyser
-    var analyser = context.createAnalyser();
-    analyser.fftSize = 32;
-    var frequencyData = new Uint8Array(analyser.frequencyBinCount);
-    var waveformData = new Uint8Array(analyser.frequencyBinCount);
-
-
-
-    
-    // set up stars
-    for (i = 0; i < 20; i++) {
-        $("#stars").append("<tr></tr>");
-    }
-
-    $("#stars tr").each(function() {
-        for (i = 0; i < 20; i++) {
-            $(this).append("<td></td>");
+    function scale(x, max) {
+        if (max > 0) {
+            return (max * x) / 255;
         }
-    });
 
-
-
-    function updateStars(r, g, b) {
-        var freqRatio = (b - g - r) / 100;
-
-        $("#stars tr").each(function() {
-            $(this).children("td").each(function() {
-                $(this).text("");
-
-                if (Math.random() < freqRatio && r > 50) {
-                    if (Math.random() < 0.1) {
-                        $(this).text(".");
-                    }
-                } else {
-                    if (Math.random() < 0.05 && freqRatio != 0 && r > 50) {
-                        if (Math.random() < 0.1) {
-                            $(this).text("✧");
-                        }
-                        else {
-                            $(this).text(".");
-                        }
-                    }
-                }
-
-            });
-        });
+        return (max * x) / 255;
     }
 
+    function signal(amplitude, frequency, phase) {
+        return amplitude * Math.sin(2 * Math.PI * frequency + phase)
+    }
 
-    b = 0;
-    g = 0;
-    r = 0;
+    function selectDataViz(option) {
+        switch(option) {
+            case "horizon":
+                horizon();
+                break;
+            case "contrail":
+                contrail();
+                break;
+            case "galaxy":
+                galaxy();
+                break;
+            default:
+                contrail();
+        }
 
-    // Get the frequency data and update the visualisation
-    function update() {
-        requestAnimationFrame(update);
+        frequencyData = new Uint8Array(analyser.frequencyBinCount);
+        waveformData = new Uint8Array(analyser.frequencyBinCount);
+    }
 
-        analyser.getByteFrequencyData(frequencyData);
-        analyser.getByteTimeDomainData(waveformData);
+    function selectColorFunc(option) {
+        switch(option) {
+            case "bluescreen":
+                colorFunc = bluescreenColorFunc;
+                break;
+            case "deadchannel":
+                colorFunc = deadchannelColorFunc;
+                break;
+            default:
+                colorFunc = deadchannelColorFunc;
+        }
+    }
 
+    function horizon() {
+        analyser.fftSize = 128;
+        lineStartYfunc = horizonLineStartY;
+        lineEndYfunc = horizonLineEndY;
 
+        numSamples = analyser.fftSize / 2;
+
+        dataVizFunction = sineViz;
+    }
+
+    function contrail() {
+        analyser.fftSize = 256;
+        lineStartYfunc = contrailLineStartY;
+        lineEndYfunc = contrailLineEndY;
+
+        numSamples = analyser.fftSize / 2;
+
+        dataVizFunction = sineViz;
+    }
+
+    function galaxy() {
+        analyser.fftSize = 32;
+
+        numSamples = analyser.fftSize / 2;
+
+        // set up stars
+        $("#stars").show();
+        for (i = 0; i < 20; i++) {
+            $("#stars").append("<tr></tr>");
+        }
+    
+        $("#stars tr").each(function() {
+            for (i = 0; i < 20; i++) {
+                $(this).append("<td></td>");
+            }
+        });
+
+        b = 0;
+        g = 0;
+        r = 0;
+
+        dataVizFunction = starViz;
+
+    }
+
+    function starViz() {
         prevColor = b+g+r;
 
         // inner part of radial gradient
@@ -107,17 +124,145 @@ $(function () {
             // update immediately on first "frame" (IS THIS WORKING?)
             $("body").css("background", "radial-gradient(ellipse at center, rgb(" + r + ", " + g + ", " + b + "), rgb(" + BGr + ", " + BGg + ", " + BGb + ")");
         }
-    
-        $("footer a").css("color", "rgb(" + r + ", " + g + ", " + b + ")");
-        $("footer a").css("border-bottom", "1px dashed rgb(" + r + ", " + g + ", " + b + ")");
-
-        // update stars
+        
         updateStars(r, g, b);
+    }
 
+    function updateStars(r, g, b) {
+        var freqRatio = (b - g - r) / 100;
+
+        $("#stars tr").each(function() {
+            $(this).children("td").each(function() {
+                $(this).text("");
+
+                if (Math.random() < freqRatio && r > 50) {
+                    if (Math.random() < 0.1) {
+                        $(this).text(".");
+                    }
+                } else {
+                    if (Math.random() < 0.05 && freqRatio != 0 && r > 50) {
+                        if (Math.random() < 0.1) {
+                            $(this).text("✧");
+                        }
+                        else {
+                            $(this).text(".");
+                        }
+                    }
+                }
+
+            });
+        });
+    }
+
+    function sineViz(numSamples) {
+       for (i = 0; i < numSamples; i++) {
+            var a = waveformData[i];
+            var f = frequencyData[i];
+
+            drawWave(a, f);
+        }
+    }
+
+    function drawWave(waveformSample, frequencySample) {
+        var lineheight = 10;
+
+        var lineStartX = i * (window.innerWidth / numSamples);
+        var lineStartY = lineStartYfunc(waveformSample, frequencySample);
+        var lineEndX = i * (window.innerWidth / numSamples);
+        var lineEndY = lineEndYfunc(lineStartY, lineheight);
+
+        canvasCtx.beginPath();
+        canvasCtx.moveTo(lineStartX, lineStartY);
+        canvasCtx.lineTo(lineEndX, lineEndY);
+        canvasCtx.lineWidth = window.innerWidth/numSamples;
+
+        canvasCtx.strokeStyle = colorFunc(waveformSample, frequencySample);
+        canvasCtx.stroke();
+    }
+
+    function bluescreenColorFunc(waveform, frequency) {
+        var r = Math.round(scale(signal(waveform, frequency, waveform), 255));
+        var g = Math.round(scale(signal(frequency, waveform, frequency), 255));
+        var b = Math.round(scale(signal(frequency, waveform, 1), 255));
+
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+    function horizonLineStartY(waveform, frequency) {
+        return scale(signal(waveform, frequency, 1), window.innerHeight) * 2;
+    }
+
+    function horizonLineEndY() {
+        return window.innerHeight;
+    }
+
+    function deadchannelColorFunc(waveform, frequency) {
+        var r = Math.round(scale(signal(waveform, frequency, 1), 255));
+        var g = Math.round(scale(signal(frequency, waveform, 1), 255));
+        var b = Math.round(scale(signal(waveform, frequency, waveform), 255));
+
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
+    function contrailLineStartY(waveform) {
+        return scale(waveform, window.innerHeight);
+    }
+    function contrailLineEndY(lineStartY, lineheight) {
+        return lineStartY+lineheight;
+    }
+
+
+    $("#songs, #dataviz, #colorfunc").change(function() {
+        window.location.href = $("#songs").val() + "&dataviz=" + $("#dataviz").val() + "&colorfunc=" + $("#colorfunc").val();
+    });
+
+    // TODO store values of dropdown menus on page reload
+
+
+    // Future-proofing...
+    var context;
+    if (typeof AudioContext !== "undefined") {
+        context = new AudioContext();
+    } else if (typeof webkitAudioContext !== "undefined") {
+        context = new webkitAudioContext();
+    } else {
+        $(".hideIfNoApi").hide();
+        $(".showIfNoApi").show();
+        return;
+    }
+
+    // Create the analyser
+    var analyser = context.createAnalyser();
+    selectDataViz($("#dataviz").val());
+    selectColorFunc($("#colorfunc").val());
+
+    $("#dataviz").change(function() {
+        selectDataViz($(this).val());
+    });
+
+    $("#colorfunc").change(function() {
+        selectColorFunc($(this).val());
+    });
+
+
+
+    var canvas = document.getElementById('lines');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var canvasCtx = canvas.getContext('2d');
+
+
+    // Get the frequency data and update the visualisation
+    function update() {
+        canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+        requestAnimationFrame(update);
+
+        analyser.getByteFrequencyData(frequencyData);
+        analyser.getByteTimeDomainData(waveformData);
+
+        dataVizFunction(numSamples);
     };
-
-
-
 
     // Hook up the audio routing...
     // player -> analyser -> speakers
@@ -130,5 +275,19 @@ $(function () {
 
     // Kick it off...
     update();
+
+    CanvasRenderingContext2D.prototype.clear =
+  CanvasRenderingContext2D.prototype.clear || function (preserveTransform) {
+    if (preserveTransform) {
+      this.save();
+      this.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    if (preserveTransform) {
+      this.restore();
+    }
+};
 
 });
