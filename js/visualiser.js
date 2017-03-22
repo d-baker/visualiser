@@ -224,12 +224,20 @@ $(function () {
 
     $("#songs, #dataviz, #colorfunc").change(function(event) {
         var newHref = $("#songs").val() + "&dataviz=" + $("#dataviz").val() + "&colorfunc=" + $("#colorfunc").val();
+
+        if ($("#dataviz").val() == "galaxy") {
+            $("#colorfunc").attr("disabled", "true");
+        } else {
+            $("#colorfunc").removeAttr("disabled");
+        }
         
         if (event.target.id != "songs") {
-            newHref += "&timecode=" + currentTime;
+            selectDataViz($("#dataviz").val());
+            selectColorFunc($("#colorfunc").val());
+        } else {
+            window.location.href = newHref;
         }
 
-        window.location.href = newHref;
     });
 
     // TODO store values of dropdown menus on page reload
