@@ -29,6 +29,12 @@
                 'download' => 'http://novasolus.bandcamp.com/track/caper',
                 'title' => 'Caper'),
 
+            'liam-cooke-17-03-03' => 
+                array('url' => '17-03-03.mp3',
+                'artist' => 'Liam Cooke',
+                'download' => '',
+                'title' => '17-03-03'),
+
             'liam-cooke-2015-01-30' => 
                 array('url' => '2015-01-30.mp3',
                 'artist' => 'Liam Cooke',
@@ -76,6 +82,13 @@
                 'artist' => 'memoriata',
                 'download' => 'http://memoriata.com/music/audio/originalcomps/2015-10-8.html',
                 'title' => '2015-10-08'),
+
+            'memoriata-2017-3-1' => 
+                array('url' => '2017-3-1.mp3',
+                'artist' => 'memoriata',
+                'download' => '',
+                'title' => '2017-3-1'),
+                
                 
             'memoriata-music-for-a-starry-night' => 
                 array('url' => 'music for a starry night.mp3',
@@ -146,7 +159,21 @@
         <div id="audio">
             <audio controls id="player" src="<?php
                 echo "music/" . $songs[$selectedSong]['url'];
-            ?>"></audio>
+        ?>" autoplay="<?php 
+            if (isset($_GET["timecode"])) { 
+                if ($_GET["timecode"] > 0) { 
+                    echo "true"; 
+                } else {
+                    echo "false";
+                }
+            } else {
+                echo "false";
+            }?>" onloadeddata="setTimecode('<?php 
+            if (isset($_GET["timecode"])) { 
+                echo $_GET["timecode"]; 
+            } else { echo "0"; }
+            ?>')">
+        </audio>
         </div>
 
         <div id="title">
@@ -168,6 +195,10 @@
         <select id="songs">
             <!-- Caper -->
             <option value="index.php?song=liam-cooke-caper" <?php if ($selectedSong == 'liam-cooke-caper') echo 'selected=true'?>>liam cooke - caper</option>
+
+            <!-- 17-03-03 -->
+            <option value="index.php?song=liam-cooke-17-03-03" <?php if ($selectedSong == 'liam-cooke-17-03-03') echo 'selected=true'?>>liam cooke - 17-03-03</option>
+
 
             <!-- 2015-01-30 -->
             <option value="index.php?song=liam-cooke-2015-01-30" <?php if ($selectedSong == 'liam-cooke-2015-01-30') echo 'selected=true'?>>liam cooke - 2015-01-30</option>
@@ -192,6 +223,10 @@
 
             <!-- 2015-10-08 -->
             <option value="index.php?song=memoriata-2015-10-08" <?php if ($selectedSong == 'memoriata-2015-10-08') echo 'selected=true'?>>memoriata - 2015-10-08</option>
+
+            <!-- 2017-3-1 -->
+            <option value="index.php?song=memoriata-2017-3-1" <?php if ($selectedSong == 'memoriata-2017-3-1') echo 'selected=true'?>>memoriata - 2017-3-1</option>
+
 
             <!-- music for a starry night -->
             <option value="index.php?song=memoriata-music-for-a-starry-night" <?php if ($selectedSong == 'memoriata-music-for-a-starry-night') echo 'selected=true'?>>memoriata - music for a starry night</option>

@@ -1,4 +1,14 @@
 // http://ianreah.com/2013/02/28/Real-time-analysis-of-streaming-audio-data-with-Web-Audio-API.html
+    currentTime = 0;
+
+    function setTimecode(time) {
+        time = parseFloat(time);
+
+        console.log(time);
+        currentTime = time;
+        document.getElementById("player").currentTime = currentTime;
+    }
+
 
 $(function () {
     function scale(x, max) {
@@ -212,8 +222,14 @@ $(function () {
     }
 
 
-    $("#songs, #dataviz, #colorfunc").change(function() {
-        window.location.href = $("#songs").val() + "&dataviz=" + $("#dataviz").val() + "&colorfunc=" + $("#colorfunc").val();
+    $("#songs, #dataviz, #colorfunc").change(function(event) {
+        var newHref = $("#songs").val() + "&dataviz=" + $("#dataviz").val() + "&colorfunc=" + $("#colorfunc").val();
+        
+        if (event.target.id != "songs") {
+            newHref += "&timecode=" + currentTime;
+        }
+
+        window.location.href = newHref;
     });
 
     // TODO store values of dropdown menus on page reload
@@ -254,6 +270,7 @@ $(function () {
 
     // Get the frequency data and update the visualisation
     function update() {
+        currentTime = document.getElementById("player").currentTime;
         canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
         requestAnimationFrame(update);
