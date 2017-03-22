@@ -226,10 +226,12 @@ $(function () {
         var newHref = $("#songs").val() + "&dataviz=" + $("#dataviz").val() + "&colorfunc=" + $("#colorfunc").val();
         
         if (event.target.id != "songs") {
-            newHref += "&timecode=" + currentTime;
+            selectDataViz($("#dataviz").val());
+            selectColorFunc($("#colorfunc").val());
+        } else {
+            window.location.href = newHref;
         }
 
-        window.location.href = newHref;
     });
 
     // TODO store values of dropdown menus on page reload
