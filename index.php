@@ -159,16 +159,13 @@
         <div id="audio">
             <audio controls id="player" src="<?php
                 echo "music/" . $songs[$selectedSong]['url'];
-        ?>" autoplay="<?php 
+        ?>" <?php 
             if (isset($_GET["timecode"])) { 
                 if ($_GET["timecode"] > 0) { 
-                    echo "true"; 
-                } else {
-                    echo "false";
-                }
-            } else {
-                echo "false";
-            }?>" onloadeddata="setTimecode('<?php 
+                    echo "autoplay"; 
+                } 
+            }
+            ?> onloadeddata="setTimecode('<?php 
             if (isset($_GET["timecode"])) { 
                 echo $_GET["timecode"]; 
             } else { echo "0"; }
