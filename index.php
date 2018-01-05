@@ -18,109 +18,109 @@
 
   <body>
 
-<?php 
+<?php
         $available_dataviz = array('horizon', 'contrail', 'galaxy');
         $available_colorfunc = array('bluescreen', 'deadchannel');
 
         $songs = array(
-            'liam-cooke-caper' => 
+            'liam-cooke-caper' =>
                 array('url' => 'Caper.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => 'http://novasolus.bandcamp.com/track/caper',
                 'title' => 'Caper'),
 
-            'liam-cooke-17-03-03' => 
+            'liam-cooke-17-03-03' =>
                 array('url' => '17-03-03.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => '',
                 'title' => '17-03-03'),
 
-            'liam-cooke-2015-01-30' => 
+            'liam-cooke-2015-01-30' =>
                 array('url' => '2015-01-30.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => 'https://soundcloud.com/novasolus/percussion-doodle-20150130k06',
                 'title' => '2015-01-30'),
 
-            'liam-cooke-C-1636' => 
+            'liam-cooke-C-1636' =>
                 array('url' => 'C-1636.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => 'https://soundcloud.com/novasolus/c-1636',
                 'title' => 'C-1636'),
 
-            'liam-cooke-frog' => 
+            'liam-cooke-frog' =>
                 array('url' => 'frog.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => 'http://araile.com/2011/05/frog',
                 'title' => 'frog'),
 
-            'liam-cooke-strata' => 
+            'liam-cooke-strata' =>
                 array('url' => 'strata.mp3',
                 'artist' => 'Liam Cooke',
                 'download' => 'https://soundcloud.com/novasolus/strata-wip',
                 'title' => 'strata'),
 
-            'memoriata-11-12-13' => 
+            'memoriata-2017-5-24' =>
+                array('url' => '2017-5-24.mp3',
+                'artist' => 'memoriata',
+                'download' => 'http://memoriata.com/music/audio/originalcomps/2017-05-24.html',
+                'title' => '2017-5-24'),
+
+            'memoriata-11-12-13' =>
                 array('url' => '11-12-13.mp3',
                 'artist' => 'memoriata',
                 'download' => 'https://dbaker.bandcamp.com/track/11-12-13',
                 'title' => '11-12-13'),
 
-            'memoriata-18-12-13' => 
+            'memoriata-18-12-13' =>
                 array('url' => '18-12-13.mp3',
                 'artist' => 'memoriata',
                 'download' => 'https://dbaker.bandcamp.com/track/18-12-13',
                 'title' => '18-12-13'),
 
-            'memoriata-2016-10-21' => 
-                array('url' => '2016-10-21.mp3',
-                'artist' => 'memoriata',
-                'download' => 'https://dbaker.bandcamp.com/track/2016-10-21',
-                'title' => '2016-10-121'),
-
-            'memoriata-2015-10-08' => 
+            'memoriata-2015-10-08' =>
                 array('url' => '2015-10-08.mp3',
                 'artist' => 'memoriata',
                 'download' => 'http://memoriata.com/music/audio/originalcomps/2015-10-8.html',
                 'title' => '2015-10-08'),
 
-            'memoriata-2017-3-1' => 
+            'memoriata-2017-3-1' =>
                 array('url' => '2017-3-1.mp3',
                 'artist' => 'memoriata',
                 'download' => '',
                 'title' => '2017-3-1'),
-                
-                
-            'memoriata-music-for-a-starry-night' => 
+
+
+            'memoriata-music-for-a-starry-night' =>
                 array('url' => 'music for a starry night.mp3',
                 'artist' => 'memoriata',
                 'download' => 'http://memoriata.com/music/audio/originalcomps/Music_for_a_starry_night.html',
                 'title' => 'Music for a starry night'),
-                
-            'soxyfleming-party-at-the-house-of-cats' => 
+
+            'soxyfleming-party-at-the-house-of-cats' =>
                 array('url' => 'party at the house of cats.mp3',
                 'artist' => 'soxyfleming',
                 'download' => '',
                 'title' => 'Party at the house of cats'),
-                
-            'soxyfleming-wark-columba-mea' => 
+
+            'soxyfleming-wark-columba-mea' =>
                 array('url' => 'wark columba mea.mp3',
                 'artist' => 'soxyfleming',
                 'download' => '',
                 'title' => 'Wark columba mea'),
 
-            'soxyfleming-mecum-in-aeternum' => 
+            'soxyfleming-mecum-in-aeternum' =>
                 array('url' => 'mecum in aeternum.mp3',
                 'artist' => 'soxyfleming',
                 'download' => '',
                 'title' => 'Mecum in aeternum'),
 
-            'soxyfleming-rosarum' => 
+            'soxyfleming-rosarum' =>
                 array('url' => 'rosarum.mp3',
                 'artist' => 'soxyfleming',
                 'download' => '',
                 'title' => 'Rosarum'),
 
-            'soxyfleming-memories-want-bliss' => 
+            'soxyfleming-memories-want-bliss' =>
                 array('url' => 'memories-want-bliss.mp3',
                 'artist' => 'soxyfleming',
                 'download' => 'https://soundcloud.com/soxyfleming/fly-to-paradise-memories-want',
@@ -159,15 +159,15 @@
         <div id="audio">
             <audio controls id="player" src="<?php
                 echo "music/" . $songs[$selectedSong]['url'];
-        ?>" <?php 
-            if (isset($_GET["timecode"])) { 
-                if ($_GET["timecode"] > 0) { 
-                    echo "autoplay"; 
-                } 
+        ?>" <?php
+            if (isset($_GET["timecode"])) {
+                if ($_GET["timecode"] > 0) {
+                    echo "autoplay";
+                }
             }
-            ?> onloadeddata="setTimecode('<?php 
-            if (isset($_GET["timecode"])) { 
-                echo $_GET["timecode"]; 
+            ?> onloadeddata="setTimecode('<?php
+            if (isset($_GET["timecode"])) {
+                echo $_GET["timecode"];
             } else { echo "0"; }
             ?>')">
         </audio>
@@ -190,59 +190,15 @@
 
         <label for="songs">Song:</label>
         <select id="songs">
-            <!-- Caper -->
-            <option value="index.php?song=liam-cooke-caper" <?php if ($selectedSong == 'liam-cooke-caper') echo 'selected=true'?>>liam cooke - caper</option>
-
-            <!-- 17-03-03 -->
-            <option value="index.php?song=liam-cooke-17-03-03" <?php if ($selectedSong == 'liam-cooke-17-03-03') echo 'selected=true'?>>liam cooke - 17-03-03</option>
-
-
-            <!-- 2015-01-30 -->
-            <option value="index.php?song=liam-cooke-2015-01-30" <?php if ($selectedSong == 'liam-cooke-2015-01-30') echo 'selected=true'?>>liam cooke - 2015-01-30</option>
-
-            <!-- C-1636 -->
-            <option value="index.php?song=liam-cooke-C-1636" <?php if ($selectedSong == 'liam-cooke-C-1636') echo 'selected=true'?>>liam cooke - C-1636</option>
-
-            <!-- frog -->
-            <option value="index.php?song=liam-cooke-frog" <?php if ($selectedSong == 'liam-cooke-frog') echo 'selected=true'?>>liam cooke - frog</option>
-
-            <!-- strata -->
-            <option value="index.php?song=liam-cooke-strata" <?php if ($selectedSong == 'liam-cooke-strata') echo 'selected=true'?>>liam cooke - strata</option>
-
-            <!-- 11-12-13 -->
-            <option value="index.php?song=memoriata-11-12-13" <?php if ($selectedSong == 'memoriata-11-12-13') echo 'selected=true'?>>memoriata - 11-12-13</option>
-
-            <!-- 18-12-13 -->
-            <option value="index.php?song=memoriata-18-12-13" <?php if ($selectedSong == 'memoriata-18-12-13') echo 'selected=true'?>>memoriata - 18-12-13</option>
-
-            <!-- 2016-10-21 -->
-            <option value="index.php?song=memoriata-2016-10-21" <?php if ($selectedSong == 'memoriata-2016-10-21') echo 'selected=true'?>>memoriata - 2016-10-21</option>
-
-            <!-- 2015-10-08 -->
-            <option value="index.php?song=memoriata-2015-10-08" <?php if ($selectedSong == 'memoriata-2015-10-08') echo 'selected=true'?>>memoriata - 2015-10-08</option>
-
-            <!-- 2017-3-1 -->
-            <option value="index.php?song=memoriata-2017-3-1" <?php if ($selectedSong == 'memoriata-2017-3-1') echo 'selected=true'?>>memoriata - 2017-3-1</option>
-
-
-            <!-- music for a starry night -->
-            <option value="index.php?song=memoriata-music-for-a-starry-night" <?php if ($selectedSong == 'memoriata-music-for-a-starry-night') echo 'selected=true'?>>memoriata - music for a starry night</option>
-
-            <!-- Party at the house of cats -->
-            <option value="index.php?song=soxyfleming-party-at-the-house-of-cats" <?php if ($selectedSong == 'soxyfleming-party-at-the-house-of-cats') echo 'selected=true'?>>soxyfleming - party at the house of cats</option>
-
-            <!-- wark columba mea -->
-            <option value="index.php?song=soxyfleming-wark-columba-mea" <?php if ($selectedSong == 'soxyfleming-wark-columba-mea') echo 'selected=true'?>>soxyfleming - wark columba mea</option>
-
-            <!-- Mecum in aeternum -->
-            <option value="index.php?song=soxyfleming-mecum-in-aeternum" <?php if ($selectedSong == 'soxyfleming-mecum-in-aeternum') echo 'selected=true' ?>>soxyfleming - mecum in aeternum</option>
-
-            <!-- Rosarum -->
-            <option value="index.php?song=soxyfleming-rosarum" <?php if ($selectedSong == 'soxyfleming-rosarum') echo 'selected=true'?>>soxyfleming - rosarum</option>
-
-            <!-- memories/want/bliss -->
-            <option value="index.php?song=soxyfleming-memories-want-bliss" <?php if ($selectedSong == 'soxyfleming-memories-want-bliss') echo 'selected=true'?>>soxyfleming - memories/want/bliss</option>
-
+            <?php
+            foreach ($songs as $song => $metadata) {
+                $title = $metadata['title'];
+                $artist = $metadata['artist'];
+                echo "<option value='index.php?song=$song' ";
+                if ($selectedSong == $song) echo 'selected=true';
+                echo ">$artist - $title</option>";
+            }
+            ?>
         </select>
         </p>
 
@@ -262,7 +218,7 @@
                 <option value="deadchannel" <?php if ($colorfunc == 'deadchannel') echo 'selected=true'?>>DeadChannel</option>
             </select>
         </p>
-               
+
     </div>
 
 
